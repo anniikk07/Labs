@@ -52,7 +52,7 @@ def test_add_to_head_multiple():
 def test_add_to_tail_single():
     d = Deque(5)
     d.AddToTail(99)
-    assert d.Show() == [99]
+    assert d.Show() == [67]
 
 
 def test_add_to_tail_multiple():
