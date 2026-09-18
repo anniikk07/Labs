@@ -21,8 +21,8 @@ def test_init_size_10():
 
 def test_fill_partial():
     d = Deque(10)
-    d.FillTheDeque([1, 2, 3])
-    assert d.Show() == [1, 2, 3]
+    d.FillTheDeque([1, 2, 3, 4])
+    assert d.Show() == [1, 2, 3, 4]
 
 
 def test_fill_full():
