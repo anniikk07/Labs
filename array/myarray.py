@@ -40,20 +40,20 @@ class Array:
 
 # простой интерфейс для реализации этого кода пользователем
 
-print('Этот код будет демонстрировать работу с массивом')
-my_arr = []
-while my_arr == []:
-    try:
-        my_arr = Array(list(map(int, input('Заполните массив: ').split())))
-        if my_arr.arr.size == 0:
-            print('Ввод пуст. Попробуйте снова!')
-            my_arr = []
-    except ValueError as e:
-        print(f'Возникла ошибка: {e}. Повторите ввод!')
-
-
-
-def interface():
+def create():
+    print('Этот код будет демонстрировать работу с массивом')
+    my_arr = []
+    while my_arr == []:
+        try:
+            my_arr = Array(list(map(int, input('Заполните массив: ').split())))
+            if my_arr.arr.size == 0:
+                print('Ввод пуст. Попробуйте снова!')
+                my_arr = []
+        except ValueError as e:
+            print(f'Возникла ошибка: {e}. Повторите ввод!')
+        else:
+            return my_arr
+def interface(my_arr):
     print('\n_______________________________________________________________')
     print('1. Добавить число в конец          2. Добавить число по индексу')
     print('3. Удалить число по индексу        4. Найти число по индексу')
@@ -87,8 +87,11 @@ def interface():
     else:
         print('Неверный пункт меню.')
 
-while True:
-    try:
-        interface()
-    except Exception as e:
-        print(f'Возникла ошибка: {e}! Повторите ввод.')
+
+if __name__ == '__main__':
+    my_arr = create()
+    while True:
+        try:
+            interface(my_arr)
+        except Exception as e:
+            print(f'Возникла ошибка: {e}! Повторите ввод.')
