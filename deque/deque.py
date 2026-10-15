@@ -59,6 +59,27 @@ class Deque:
         return [int(self.data[(self.head + i) % self.size]) for i in range(self.count)]
 
 
+def read_int(prompt: str) -> int:
+    while True:
+        try:
+            return int(input(prompt))
+        except ValueError:
+            print("Нужно ввести целое число! Попробуйте снова.")
+
+
+def read_deque() -> Deque:
+    size = read_int("Размер дека: ")
+    d = Deque(size)
+
+    print("Введите числа через пробел:")
+    while True:
+        try:
+            numbers = list(map(int, input().split()))
+            d.FillTheDeque(numbers)
+            return d
+        except ValueError:
+            print("Некорректный ввод, попробуйте снова.")
+
 def print_deque(d: Deque) -> None:
     items = d.Show()
     if not items:
@@ -66,80 +87,62 @@ def print_deque(d: Deque) -> None:
     else:
         print("Дек: [" + ", ".join(map(str, items)) + "]")
 
-
-def main() -> None:
-    d: Deque
-    while True:
-        try:
-            size = int(input("Размер дека: "))
-            d = Deque(size)
-            break
-        except ValueError as e:
-            print(f"Ошибка: {e}. Попробуйте снова.")
-
-    print("Нужно заполнить дек. Введите числа через пробел:")
-    try:
-        numbers = list(map(int, input().split()))
-    except ValueError:
-        print("Некорректный ввод, дек останется пустым.")
-        numbers = []
-
-    d.FillTheDeque(numbers)
-    print_deque(d)
-
+def interface(d: Deque) -> bool:
     menu = (
         "\n1. Добавить в начало    2. Добавить в конец\n"
         "3. Удалить сначала      4. Удалить с конца\n"
         "5. Найти по индексу     6. Показать дек\n"
         "0. Выход"
     )
+    print(menu)
+    choise = input("Выбор: ").strip()
+
+    try:
+        if choise == "0":
+            print("Выход.")
+            return False
+
+        elif choise == "1":
+            x = read_int("Число: ")
+            d.AddToHead(x)
+            print(f"Добавлено {x} в начало")
+
+        elif choise == "2":
+            x = read_int("Число: ")
+            d.AddToTail(x)
+            print(f"Добавлено {x} в конец")
+
+        elif choise == "3":
+            x = d.DeleteFromHead()
+            print(f"Удалён {x} из начала")
+
+        elif choise == "4":
+            x = d.DeleteFromTail()
+            print(f"Удалён {x} из конца")
+
+        elif choise == "5":
+            idx = read_int("Индекс: ")
+            value = d.GetByIndex(idx)
+            print(f"Элемент [{idx}] = {value}")
+
+        elif choise == "6":
+            print_deque(d)
+
+        else:
+            print("Неверная команда!")
+
+    except (OverflowError, IndexError) as e:
+        print(f"Ошибка: {e}")
+
+    return True
+
+
+def main():
+    d = read_deque()
 
     while True:
-        print(menu)
-        cmd = input("Выбор: ").strip()
-
-        try:
-            if cmd == "0":
-                print("Выход.")
-                break
-
-            elif cmd == "1":
-                x = int(input("Число: "))
-                d.AddToHead(x)
-                print(f"Добавлено {x} в начало")
-                print_deque(d)
-
-            elif cmd == "2":
-                x = int(input("Число: "))
-                d.AddToTail(x)
-                print(f"Добавлено {x} в конец")
-                print_deque(d)
-
-            elif cmd == "3":
-                x = d.DeleteFromHead()
-                print(f"Удалён {x} из начала")
-                print_deque(d)
-
-            elif cmd == "4":
-                x = d.DeleteFromTail()
-                print(f"Удалён {x} из конца")
-                print_deque(d)
-
-            elif cmd == "5":
-                idx = int(input("Индекс: "))
-                value = d.GetByIndex(idx)
-                print(f"Элемент [{idx}] = {value}")
-
-            elif cmd == "6":
-                print_deque(d)
-
-            else:
-                print("Неверная команда!")
-
-        except (OverflowError, IndexError) as e:
-            print(f"Ошибка: {e}")
-        except ValueError:
-            print("Нужно ввести целое число!")
+        if not interface(d):
+            break
 
 
 if __name__ == "__main__":
